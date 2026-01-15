@@ -1,4 +1,4 @@
-import { Menu, Flex, Typography } from "antd";
+import { Menu, Flex, Typography, Button } from "antd";
 
 const { Text } = Typography;
 
@@ -23,14 +23,16 @@ const MenuComponent = ({ selectedKey, onSelect }) => {
         height: "100dvh",
         background: "#141414",
         borderRight: "1px solid #0f0f0f",
-      }}>
+      }}
+    >
       <Text
         strong
         style={{
           color: "#fff",
           padding: "16px",
           fontSize: 16,
-        }}>
+        }}
+      >
         Friendly DHCP
       </Text>
       <Menu
@@ -40,6 +42,17 @@ const MenuComponent = ({ selectedKey, onSelect }) => {
         mode="vertical"
         items={items}
       />
+      <Button
+        type="primary"
+        style={{
+          alignSelf: "center",
+          width: "150px",
+          marginTop: "auto",
+          marginBottom: 20,
+        }}
+      >
+        Aplicar cambios
+      </Button>
     </Flex>
   );
 };
