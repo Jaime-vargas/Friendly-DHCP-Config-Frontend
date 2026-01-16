@@ -6,6 +6,8 @@ import { updateGlobalConfig } from "../api/fetchInfo.jsx";
 import { deleteGlobalConfig } from "../api/fetchInfo.jsx";
 import { createGlobalConfig } from "../api/fetchInfo.jsx";
 
+import { Modal } from "antd";
+
 import { Button, Flex } from "antd";
 
 export function NetworkViews() {
@@ -32,8 +34,11 @@ export function NetworkViews() {
       setData((prev) =>
         prev.map((network) => (network.id === id ? savedNetwork : network))
       );
-    } catch (error) {
-      console.error("Error saving network:", error);
+    } catch (err) {
+      Modal.error({
+        title: err.HttpStatusError || "Error",
+        content: err.message,
+      });
     }
   };
 

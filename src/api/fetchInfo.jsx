@@ -1,14 +1,9 @@
 const apiBaseUrl = "http://localhost:3000/api/v1";
+import { handleResponse } from "./apiClient";
 
 export async function fetchGlobalConfig() {
   const res = await fetch(`${apiBaseUrl}/global-config`);
-  if (!res.ok) {
-    const text = await res.text().catch(() => "");
-    throw new Error(
-      `Failed to fetch global config: ${res.status} ${res.statusText} ${text}`
-    );
-  }
-  return res.json();
+  return handleResponse(res);
 }
 
 export async function createGlobalConfig(payload) {
@@ -18,12 +13,7 @@ export async function createGlobalConfig(payload) {
     body: JSON.stringify(payload),
   });
 
-  if (!res.ok) {
-    const text = await res.text().catch(() => "");
-    throw new Error(`Failed to create: ${res.status} ${text}`);
-  }
-
-  return res.json();
+  return handleResponse(res);
 }
 
 export async function updateGlobalConfig(id, payload) {
@@ -35,14 +25,7 @@ export async function updateGlobalConfig(id, payload) {
     body: JSON.stringify(payload),
   });
 
-  if (!res.ok) {
-    const text = await res.text().catch(() => "");
-    throw new Error(
-      `Failed to update config: ${res.status} ${res.statusText} ${text}`
-    );
-  }
-
-  return res.json();
+  return handleResponse(res);
 }
 
 export async function deleteGlobalConfig(id) {
@@ -50,10 +33,7 @@ export async function deleteGlobalConfig(id) {
     method: "DELETE",
   });
 
-  if (!res.ok) {
-    const text = await res.text().catch(() => "");
-    throw new Error(`Failed to delete: ${res.status} ${text}`);
-  }
+  return handleResponse(res);
 }
 
 // DEVICES
@@ -61,12 +41,7 @@ export async function deleteGlobalConfig(id) {
 export async function fetchDevices() {
   const res = await fetch(`${apiBaseUrl}/devices`);
 
-  if (!res.ok) {
-    const text = await res.text().catch(() => "");
-    throw new Error(`Failed to fetch devices: ${res.status} ${text}`);
-  }
-
-  return res.json();
+  return handleResponse(res);
 }
 
 export async function createDevice(payload) {
@@ -76,12 +51,7 @@ export async function createDevice(payload) {
     body: JSON.stringify(payload),
   });
 
-  if (!res.ok) {
-    const text = await res.text().catch(() => "");
-    throw new Error(`Failed to create device: ${res.status} ${text}`);
-  }
-
-  return res.json();
+  return handleResponse(res);
 }
 
 export async function updateDevice(id, payload) {
@@ -91,12 +61,7 @@ export async function updateDevice(id, payload) {
     body: JSON.stringify(payload),
   });
 
-  if (!res.ok) {
-    const text = await res.text().catch(() => "");
-    throw new Error(`Failed to update device: ${res.status} ${text}`);
-  }
-
-  return res.json();
+  return handleResponse(res);
 }
 
 export async function deleteDevice(id) {
@@ -104,8 +69,12 @@ export async function deleteDevice(id) {
     method: "DELETE",
   });
 
-  if (!res.ok) {
-    const text = await res.text().catch(() => "");
-    throw new Error(`Failed to delete device: ${res.status} ${text}`);
-  }
+  return handleResponse(res);
+}
+
+export async function applyConfig() {
+  const res = await fetch(`${apiBaseUrl}/apply-config`, {
+    method: "GET",
+  });
+  return res;
 }

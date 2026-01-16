@@ -46,13 +46,20 @@ function DevicesView() {
   };
 
   const handleSubmit = async (values) => {
-    if (editingDevice) {
-      await updateDevice(editingDevice.id, values);
-    } else {
-      await createDevice(values);
+    try {
+      if (editingDevice) {
+        await updateDevice(editingDevice.id, values);
+      } else {
+        await createDevice(values);
+      }
+      setModalOpen(false);
+      loadDevices();
+    } catch (err) {
+      Modal.error({
+        title: err.HttpStatusError || "Error",
+        content: err.message,
+      });
     }
-    setModalOpen(false);
-    loadDevices();
   };
 
   useEffect(() => {
@@ -126,8 +133,7 @@ function DevicesView() {
           <Button
             type="primary"
             danger
-            onClick={() => confirmDelete(record.id)}
-          >
+            onClick={() => confirmDelete(record.id)}>
             Eliminar
           </Button>
         </Space>
@@ -152,8 +158,7 @@ function DevicesView() {
           allowClear
           placeholder="Filtrar por red"
           style={{ width: 200 }}
-          onChange={(value) => setNetworkFilter(value || null)}
-        >
+          onChange={(value) => setNetworkFilter(value || null)}>
           {networks.map((n) => (
             <Option key={n.id} value={n.id}>
               {n.name}
