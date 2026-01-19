@@ -1,4 +1,4 @@
-const apiBaseUrl = "http://localhost:3000/api/v1";
+const apiBaseUrl = "http://10.0.0.254:3000/api/v1";
 import { handleResponse } from "./apiClient";
 
 export async function fetchGlobalConfig() {
@@ -69,7 +69,7 @@ export async function deleteDevice(id) {
     method: "DELETE",
   });
 
-  return handleResponse(res);
+  return res;
 }
 
 export async function applyConfig() {

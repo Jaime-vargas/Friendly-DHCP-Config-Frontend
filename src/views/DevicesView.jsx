@@ -23,18 +23,6 @@ function DevicesView() {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingDevice, setEditingDevice] = useState(null);
 
-  const confirmDelete = (id) => {
-    Modal.confirm({
-      title: "¿Eliminar dispositivo?",
-      content: "Esta acción no se puede deshacer",
-      okType: "danger",
-      onOk: async () => {
-        await deleteDevice(id);
-        loadDevices();
-      },
-    });
-  };
-
   const openCreateModal = () => {
     setEditingDevice(null);
     setModalOpen(true);
@@ -83,6 +71,32 @@ function DevicesView() {
     };
     getData();
   }, []);
+
+  const confirmDelete = (id) => {
+    Modal.confirm({
+      title: "¿Eliminar dispositivo?",
+      content: "Esta acción no se puede deshacer",
+      okType: "danger",
+      onOk: async () => {
+        try {
+          // Llama a la API para borrar
+          await deleteDevice(id);
+
+          // Actualiza la lista de dispositivos en frontend
+          await loadDevices();
+
+          // Todo salió bien, no lanzamos error, modal se cierra
+        } catch (err) {
+          // Mostrar error y lanzar para que el modal no se cierre si algo falló
+          Modal.error({
+            title: "Error al eliminar",
+            content: err.message || "No se pudo eliminar el dispositivo",
+          });
+          throw err; // solo si quieres que modal no se cierre
+        }
+      },
+    });
+  };
 
   // datos filtrados
   const filteredDevices = useMemo(() => {
@@ -133,7 +147,8 @@ function DevicesView() {
           <Button
             type="primary"
             danger
-            onClick={() => confirmDelete(record.id)}>
+            onClick={() => confirmDelete(record.id)}
+          >
             Eliminar
           </Button>
         </Space>
@@ -158,7 +173,8 @@ function DevicesView() {
           allowClear
           placeholder="Filtrar por red"
           style={{ width: 200 }}
-          onChange={(value) => setNetworkFilter(value || null)}>
+          onChange={(value) => setNetworkFilter(value || null)}
+        >
           {networks.map((n) => (
             <Option key={n.id} value={n.id}>
               {n.name}
@@ -173,7 +189,7 @@ function DevicesView() {
           rowKey="id"
           columns={columns}
           dataSource={filteredDevices}
-          pagination={{ pageSize: 30 }}
+          pagination={{ pageSize: 10 }}
         />
         <DeviceFormModal
           open={modalOpen}
