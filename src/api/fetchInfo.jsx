@@ -1,8 +1,6 @@
-// ### API FETCH INFO DEV
-//const apiBaseUrl = "http://localhost:3000/api/v1";
-
 // ### API FETCH INFO PROD
-const apiBaseUrl = "http://10.0.0.254:3000/api/v1";
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+
 import { handleResponse } from "./apiClient";
 
 export async function fetchGlobalConfig() {
