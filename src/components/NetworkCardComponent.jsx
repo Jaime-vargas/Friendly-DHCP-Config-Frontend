@@ -58,7 +58,12 @@ export default function NetworkCardComponent({ network, onSave, onDelete }) {
           background: "#141414",
           borderRadius: "15px",
           border: "1px solid #0f0f0f",
-        }}>
+        }}
+      >
+        <Title level={2} style={{ color: "#fff" }}>
+          {network.name}
+        </Title>{" "}
+        {/* Display delete button 
         {formDisabled ? (
           <Title level={2} style={{ color: "#fff" }}>
             {network.name}
@@ -71,22 +76,25 @@ export default function NetworkCardComponent({ network, onSave, onDelete }) {
               onDelete(network.id);
             }}
             okText="Sí"
-            cancelText="No">
+            cancelText="No"
+          >
             <Button
               style={{ width: "auto", alignSelf: "flex-end" }}
               type="primary"
-              danger>
+              danger
+            >
               <DeleteOutlined />
             </Button>
           </Popconfirm>
         )}
-
+          */}
         <Form
           form={form}
           disabled={formDisabled}
           initialValues={network}
           layout="vertical"
-          size="small">
+          size="small"
+        >
           {!formDisabled && (
             <Row gutter={15}>
               <Col span={12}>

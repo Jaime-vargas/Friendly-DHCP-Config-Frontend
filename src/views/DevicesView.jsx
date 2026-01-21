@@ -18,6 +18,8 @@ function DevicesView() {
   const [loading, setLoading] = useState(false);
 
   const [nameFilter, setNameFilter] = useState("");
+  const [macFilter, setMacFilter] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("");
   const [networkFilter, setNetworkFilter] = useState(null);
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -104,12 +106,22 @@ function DevicesView() {
       const matchesName =
         !nameFilter || d.name?.toLowerCase().includes(nameFilter.toLowerCase());
 
+      const matchesMac =
+        !macFilter ||
+        d.mac_address?.toLowerCase().includes(macFilter.toLowerCase());
+
+      const matchesCategory = !categoryFilter || d.category === categoryFilter;
+
       const matchesNetwork =
         !networkFilter || Number(d.network_id) === Number(networkFilter);
 
-      return matchesName && matchesNetwork;
+      return matchesName && matchesMac && matchesCategory && matchesNetwork;
     });
-  }, [devices, nameFilter, networkFilter]);
+  }, [devices, nameFilter, macFilter, categoryFilter, networkFilter]);
+
+  const categoryOptions = useMemo(() => {
+    return Array.from(new Set(devices.map((d) => d.category).filter(Boolean)));
+  }, [devices]);
 
   const columns = [
     {
@@ -117,6 +129,12 @@ function DevicesView() {
       dataIndex: "name",
       key: "name",
       sorter: (a, b) => a.name.localeCompare(b.name),
+    },
+    {
+      title: "Categoría",
+      dataIndex: "category",
+      key: "category",
+      sorter: (a, b) => a.category.localeCompare(b.category),
     },
     {
       title: "MAC",
@@ -168,6 +186,25 @@ function DevicesView() {
           onChange={(e) => setNameFilter(e.target.value)}
           style={{ width: 200 }}
         />
+        <Search
+          placeholder="Filtrar por MAC"
+          allowClear
+          onChange={(e) => setMacFilter(e.target.value)}
+          style={{ width: 200 }}
+        />
+
+        <Select
+          allowClear
+          placeholder="Filtrar por categoría"
+          style={{ width: 200 }}
+          onChange={(value) => setCategoryFilter(value || null)}
+        >
+          {categoryOptions.map((category) => (
+            <Option key={category} value={category}>
+              {category}
+            </Option>
+          ))}
+        </Select>
 
         <Select
           allowClear

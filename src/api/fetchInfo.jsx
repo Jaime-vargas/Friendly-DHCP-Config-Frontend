@@ -1,3 +1,7 @@
+// ### API FETCH INFO DEV
+//const apiBaseUrl = "http://localhost:3000/api/v1";
+
+// ### API FETCH INFO PROD
 const apiBaseUrl = "http://10.0.0.254:3000/api/v1";
 import { handleResponse } from "./apiClient";
 

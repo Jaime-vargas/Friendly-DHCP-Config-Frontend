@@ -30,6 +30,14 @@ function DeviceFormModal({ open, onClose, onSubmit, networks, initialValues }) {
           <Input />
         </Form.Item>
 
+        <Form.Item
+          name="category"
+          label="Categoría"
+          rules={[{ required: true }]}
+        >
+          <Input />
+        </Form.Item>
+
         <Form.Item name="mac_address" label="MAC" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
